@@ -20,6 +20,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
@@ -38,19 +40,18 @@ import javafx.util.Duration;
  */
 public class SwipeDiagonalSkin extends SkinBase<Labeled>{
 
-    private SVGPath shape = new SVGPath();
-    private Rectangle clip = new Rectangle();
     private Label title = new Label("Button");
 
     private Paint firstColor;
 
     private StackPane rect = ((GNButton) getSkinnable()).rect;
 
-    private double velocity = 300;
+    private ObjectProperty<Duration> velocity = new SimpleObjectProperty<>(this, "velocity");
 
-    public SwipeDiagonalSkin(GNButton control) {
+    SwipeDiagonalSkin(GNButton control) {
         super(control);
 
+        SVGPath shape = new SVGPath();
         shape.setContent("M 250 200 L 250 300 L 500 300 L 450 200 L 250 200 ");
         rect.setShape(shape);
 
@@ -67,6 +68,7 @@ public class SwipeDiagonalSkin extends SkinBase<Labeled>{
         getChildren().add(rect);
         getChildren().add(title);
 
+        velocity.bind( ((GNButton)getSkinnable()).transitionDurationProperty());
         title.textProperty().bind(getSkinnable().textProperty());
         title.fontProperty().bind(getSkinnable().fontProperty());
         title.textFillProperty().bind(getSkinnable().textFillProperty());
@@ -79,6 +81,7 @@ public class SwipeDiagonalSkin extends SkinBase<Labeled>{
         title.textOverrunProperty().bind(getSkinnable().textOverrunProperty());
 
 
+        Rectangle clip = new Rectangle();
         clip.setArcWidth(0);
         clip.setArcHeight(0);
         getSkinnable().setClip(clip);
@@ -105,8 +108,8 @@ public class SwipeDiagonalSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.translateXProperty(), rect.getTranslateX())),
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.translateXProperty(), rect.getWidth())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
+                    new KeyFrame(velocity.get(), new KeyValue(rect.translateXProperty(), rect.getWidth())),
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
             );
 
             if (timeExited.getStatus() == Animation.Status.RUNNING){
@@ -124,9 +127,9 @@ public class SwipeDiagonalSkin extends SkinBase<Labeled>{
 
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(velocity),
+                    new KeyFrame(velocity.get(),
                             new KeyValue(rect.translateXProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), firstColor))
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), firstColor))
 
             );
 

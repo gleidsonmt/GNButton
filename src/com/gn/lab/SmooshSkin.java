@@ -20,6 +20,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
@@ -47,9 +49,9 @@ public class SmooshSkin extends SkinBase<Labeled> {
     private StackPane rect = ((GNButton) getSkinnable()).rect;
     private StackPane rect_bottom = new StackPane();
 
-    private double velocity = 500;
+    private ObjectProperty<Duration> velocity = new SimpleObjectProperty<>(this, "velocity");
 
-    public SmooshSkin(GNButton control) {
+    SmooshSkin(GNButton control) {
         super(control);
 
         rect.setShape(null);
@@ -72,6 +74,7 @@ public class SmooshSkin extends SkinBase<Labeled> {
         getChildren().add(rect_bottom);
         getChildren().add(title);
 
+        velocity.bind( ((GNButton)getSkinnable()).transitionDurationProperty());
         title.textProperty().bind(getSkinnable().textProperty());
         title.fontProperty().bind(getSkinnable().fontProperty());
         title.textFillProperty().bind(getSkinnable().textFillProperty());
@@ -125,15 +128,15 @@ public class SmooshSkin extends SkinBase<Labeled> {
                     new KeyFrame(Duration.ZERO, new KeyValue(rect_bottom.maxHeightProperty(), rect_bottom.getHeight())),
 
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefHeightProperty(), getSkinnable().getHeight() / 2)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxHeightProperty(), getSkinnable().getHeight() / 2)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefHeightProperty(), getSkinnable().getHeight() / 2)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxHeightProperty(), getSkinnable().getHeight() / 2)),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect_bottom.prefHeightProperty(), getSkinnable().getHeight() / 2)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect_bottom.maxHeightProperty(), getSkinnable().getHeight() / 2)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect_bottom.prefHeightProperty(), getSkinnable().getHeight() / 2)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect_bottom.maxHeightProperty(), getSkinnable().getHeight() / 2)),
 
 
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
 
             );
 
@@ -156,13 +159,13 @@ public class SmooshSkin extends SkinBase<Labeled> {
 
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefHeightProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxHeightProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefHeightProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxHeightProperty(), 0D)),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect_bottom.prefHeightProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect_bottom.maxHeightProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect_bottom.prefHeightProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect_bottom.maxHeightProperty(), 0D)),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), firstColor))
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), firstColor))
 
             );
 

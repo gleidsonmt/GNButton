@@ -44,15 +44,12 @@ import javafx.util.Duration;
  */
 public class SwipeSkin extends SkinBase<Labeled>{
 
-    private Rectangle clip = new Rectangle();
     private Label title = new Label("Button");
-
     private Paint firstColor;
-
     private StackPane rect = ((GNButton) getSkinnable()).rect;
-    private double velocity = 500;
+    private ObjectProperty<Duration> velocity = new SimpleObjectProperty<>(this, "velocity");
 
-    public SwipeSkin(GNButton control) {
+    SwipeSkin(GNButton control) {
         super(control);
 
         rect.setShape(null);
@@ -68,6 +65,7 @@ public class SwipeSkin extends SkinBase<Labeled>{
         getChildren().add(rect);
         getChildren().add(title);
 
+        velocity.bind( ((GNButton)getSkinnable()).transitionDurationProperty());
         title.textProperty().bind(getSkinnable().textProperty());
         title.fontProperty().bind(getSkinnable().fontProperty());
         title.textFillProperty().bind(getSkinnable().textFillProperty());
@@ -79,6 +77,7 @@ public class SwipeSkin extends SkinBase<Labeled>{
         title.alignmentProperty().bind(getSkinnable().alignmentProperty());
         title.textOverrunProperty().bind(getSkinnable().textOverrunProperty());
 
+        Rectangle clip = new Rectangle();
         clip.setArcWidth(0);
         clip.setArcHeight(0);
         getSkinnable().setClip(clip);
@@ -108,9 +107,9 @@ public class SwipeSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.maxWidthProperty(), rect.getPrefWidth())),
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefWidthProperty(), getSkinnable().getWidth())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxWidthProperty(), getSkinnable().getWidth())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefWidthProperty(), getSkinnable().getWidth())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxWidthProperty(), getSkinnable().getWidth())),
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
 
             );
 
@@ -129,9 +128,9 @@ public class SwipeSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.maxWidthProperty(), rect.getPrefWidth())),
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefWidthProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxWidthProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), firstColor))
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefWidthProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxWidthProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), firstColor))
 
             );
 

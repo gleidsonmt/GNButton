@@ -20,6 +20,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.SkinBase;
@@ -38,9 +40,11 @@ public class CentralizeSkin extends SkinBase<Labeled>{
     private Rectangle clip = new Rectangle();
     private Label title = new Label("Button");
 
-    private Paint oldColor;
+    private Paint firstColor;
 
-    public CentralizeSkin(GNButton control) {
+    private ObjectProperty<Duration> velocity = new SimpleObjectProperty<>(this, "velocity");
+
+    CentralizeSkin(GNButton control) {
         super(control);
 
         StackPane rect = ((GNButton) getSkinnable()).rect;
@@ -57,6 +61,7 @@ public class CentralizeSkin extends SkinBase<Labeled>{
         getChildren().add(rect);
         getChildren().add(title);
 
+        velocity.bind( ((GNButton)getSkinnable()).transitionDurationProperty());
         title.textProperty().bind(getSkinnable().textProperty());
         title.fontProperty().bind(getSkinnable().fontProperty());
         title.textFillProperty().bind(getSkinnable().textFillProperty());
@@ -75,24 +80,31 @@ public class CentralizeSkin extends SkinBase<Labeled>{
         clip.widthProperty().bind(getSkinnable().widthProperty());
         clip.heightProperty().bind(getSkinnable().heightProperty());
 
-
         Timeline timeEntered = new Timeline();
         Timeline timeExited = new Timeline();
 
+        firstColor = getSkinnable().getTextFill();
+
+        getSkinnable().textFillProperty().addListener((observable, oldValue, newValue) -> {
+            if(timeEntered.getStatus() == Animation.Status.STOPPED && timeExited.getStatus() == Animation.Status.STOPPED ) {
+                firstColor = newValue;
+            }
+        });
+
+
         getSkinnable().setOnMouseEntered(event -> {
             timeEntered.getKeyFrames().clear();
-            oldColor = getSkinnable().getTextFill();
             timeEntered.getKeyFrames().addAll(
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.prefWidthProperty(), 0)),
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.maxWidthProperty(), 0)),
 
-                    new KeyFrame(Duration.millis(300), new KeyValue(rect.maxWidthProperty(), getSkinnable().getWidth())),
-                    new KeyFrame(Duration.millis(300), new KeyValue(rect.prefWidthProperty(), getSkinnable().getWidth())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxWidthProperty(), getSkinnable().getWidth())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefWidthProperty(), getSkinnable().getWidth())),
 
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
 
-                    new KeyFrame(Duration.millis(300),
+                    new KeyFrame(velocity.get(),
                             new KeyValue(getSkinnable().textFillProperty(), ( (GNButton) getSkinnable()).getTransitionText()))
             );
 
@@ -114,13 +126,13 @@ public class CentralizeSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.prefWidthProperty(), getSkinnable().getWidth())),
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.maxWidthProperty(), getSkinnable().getWidth())),
 
-                    new KeyFrame(Duration.millis(300), new KeyValue(rect.maxWidthProperty(), 0)),
-                    new KeyFrame(Duration.millis(300), new KeyValue(rect.prefWidthProperty(), 0)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxWidthProperty(), 0)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefWidthProperty(), 0)),
 
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(getSkinnable().textFillProperty(), ( (GNButton) getSkinnable()).getTransitionText())),
-                    new KeyFrame(Duration.millis(300),
-                            new KeyValue(getSkinnable().textFillProperty(), oldColor))
+                    new KeyFrame(velocity.get(),
+                            new KeyValue(getSkinnable().textFillProperty(), firstColor))
             );
 
             if(timeExited.getStatus() == Animation.Status.RUNNING){

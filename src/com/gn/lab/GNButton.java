@@ -16,6 +16,7 @@
  */
 package com.gn.lab;
 
+import com.sun.javafx.css.converters.DurationConverter;
 import com.sun.javafx.css.converters.PaintConverter;
 import javafx.css.*;
 import javafx.geometry.Insets;
@@ -26,7 +27,7 @@ import javafx.scene.control.Skin;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,8 +42,10 @@ public class GNButton extends Labeled {
     StackPane rect = new StackPane();
 
     private StyleableObjectProperty<ButtonType> buttonType;
+
     private StyleableObjectProperty<Paint> transitionColor;
     private StyleableObjectProperty<Paint> transitionText;
+    private StyleableObjectProperty<Duration> transitionDuration;
 
     private List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
 
@@ -65,6 +68,8 @@ public class GNButton extends Labeled {
 
         this.transitionText = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.TRANSITION_TEXT, this, "transitionText", Color.WHITE);
 
+        this.transitionDuration = new SimpleStyleableObjectProperty<Duration>(StyleableProperties.TRANSITION_DURATION, this, "transitionDuration", Duration.millis(300D));
+
         setPadding(new Insets(0D));
         setText( title != null ? title : "Button" );
         setBorder(new Border(new BorderStroke(Color.web("33B5E5"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT )));
@@ -79,18 +84,18 @@ public class GNButton extends Labeled {
 
     private void updateButtonType(ButtonType type) {
         switch (type) {
-            case ALTERNATE:
-                setSkin(new AlternateSkin(this));
-                break;
-            case SMOOSH :
-                setSkin(new SmooshSkin(this));
-                break;
-            case CENTRALIZE:
-                setSkin(new CentralizeSkin(this));
-                break;
-            case DIAGONAL_SWIPE:
-                setSkin(new SwipeDiagonalSkin(this));
-                break;
+//            case ALTERNATE:
+//                setSkin(new AlternateSkin(this));
+//                break;
+//            case SMOOSH :
+//                setSkin(new SmooshSkin(this));
+//                break;
+//            case CENTRALIZE:
+//                setSkin(new CentralizeSkin(this));
+//                break;
+//            case DIAGONAL_SWIPE:
+//                setSkin(new SwipeDiagonalSkin(this));
+//                break;
             default:
                 setSkin(new SwipeSkin(this));
                 break;
@@ -117,6 +122,9 @@ public class GNButton extends Labeled {
         private static final CssMetaData<GNButton, ButtonType> BUTTON_TYPE;
         private static final CssMetaData<GNButton, Paint> TRANSITION_COLOR;
         private static final CssMetaData<GNButton, Paint> TRANSITION_TEXT;
+
+        private static final CssMetaData<GNButton, Duration> TRANSITION_DURATION;
+
         private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;
 
         private StyleableProperties(){}
@@ -158,8 +166,20 @@ public class GNButton extends Labeled {
                 }
             };
 
+            TRANSITION_DURATION = new CssMetaData<GNButton, Duration>("-gn-transition-duration", DurationConverter.getInstance(), Duration.millis(300D)) {
+                @Override
+                public boolean isSettable(GNButton styleable) {
+                    return styleable.transitionDuration == null || !styleable.transitionDuration.isBound();
+                }
+
+                @Override
+                public StyleableProperty<Duration> getStyleableProperty(GNButton styleable) {
+                    return styleable.transitionDurationProperty();
+                }
+            };
+
             List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList(Control.getClassCssMetaData());
-            Collections.addAll(styleables, BUTTON_TYPE, TRANSITION_COLOR, TRANSITION_TEXT);
+            Collections.addAll(styleables, BUTTON_TYPE, TRANSITION_COLOR, TRANSITION_TEXT, TRANSITION_DURATION);
             CHILD_STYLEABLES = Collections.unmodifiableList(styleables);
         }
     }
@@ -200,8 +220,16 @@ public class GNButton extends Labeled {
         return transitionText;
     }
 
-    public void setTransitionText(Paint transitionText) {
-        this.transitionText.set(transitionText);
+    public Duration getTransitionDuration() {
+        return transitionDuration.get();
+    }
+
+    public StyleableObjectProperty<Duration> transitionDurationProperty() {
+        return transitionDuration;
+    }
+
+    public void setTransitionDuration(Duration transitionDuration) {
+        this.transitionDuration.set(transitionDuration);
     }
 
     @Override

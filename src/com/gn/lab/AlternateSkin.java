@@ -20,6 +20,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
@@ -39,7 +41,6 @@ import javafx.util.Duration;
  */
 public class AlternateSkin extends SkinBase<Labeled>{
 
-    private Rectangle clip = new Rectangle();
     private Label title = new Label("Button");
 
     private Paint firstColor;
@@ -49,7 +50,7 @@ public class AlternateSkin extends SkinBase<Labeled>{
     private StackPane rect2 = new StackPane();
     private StackPane rect3 = new StackPane();
 
-    private double velocity = 500;
+    private ObjectProperty<Duration> velocity = new SimpleObjectProperty<>(this, "velocity");
 
     public AlternateSkin(GNButton control) {
         super(control);
@@ -86,6 +87,7 @@ public class AlternateSkin extends SkinBase<Labeled>{
         getChildren().add(rect3);
         getChildren().add(title);
 
+        velocity.bind( ((GNButton)getSkinnable()).transitionDurationProperty());
         title.textProperty().bind(getSkinnable().textProperty());
         title.fontProperty().bind(getSkinnable().fontProperty());
         title.textFillProperty().bind(getSkinnable().textFillProperty());
@@ -97,6 +99,7 @@ public class AlternateSkin extends SkinBase<Labeled>{
         title.alignmentProperty().bind(getSkinnable().alignmentProperty());
         title.textOverrunProperty().bind(getSkinnable().textOverrunProperty());
 
+        Rectangle clip = new Rectangle();
         clip.setArcWidth(0);
         clip.setArcHeight(0);
         getSkinnable().setClip(clip);
@@ -165,20 +168,20 @@ public class AlternateSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect3.prefHeightProperty(), rect3.getHeight())),
                     new KeyFrame(Duration.ZERO, new KeyValue(rect3.maxHeightProperty(), rect3.getHeight())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefHeightProperty(), getSkinnable().getHeight())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.prefHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxHeightProperty(), getSkinnable().getHeight())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect1.prefHeightProperty(), getSkinnable().getHeight())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect1.maxHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect1.prefHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect1.maxHeightProperty(), getSkinnable().getHeight())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect2.prefHeightProperty(), getSkinnable().getHeight())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect2.maxHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect2.prefHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect2.maxHeightProperty(), getSkinnable().getHeight())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect3.prefHeightProperty(), getSkinnable().getHeight())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect3.maxHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect3.prefHeightProperty(), getSkinnable().getHeight())),
+                    new KeyFrame(velocity.get(), new KeyValue(rect3.maxHeightProperty(), getSkinnable().getHeight())),
 
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), ((GNButton) getSkinnable()).getTransitionText()))
 
             );
 
@@ -206,20 +209,20 @@ public class AlternateSkin extends SkinBase<Labeled>{
                     new KeyFrame(Duration.ZERO, new KeyValue(rect3.prefHeightProperty(), rect3.getHeight())),
                     new KeyFrame(Duration.ZERO, new KeyValue(rect3.maxHeightProperty(), rect3.getHeight())),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.prefHeightProperty(), 0D)),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect.maxHeightProperty(), 0D)),
+                    new KeyFrame(velocity.getValue(), new KeyValue(rect.prefHeightProperty(), 0D)),
+                    new KeyFrame(velocity.get(), new KeyValue(rect.maxHeightProperty(), 0D)),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect1.prefHeightProperty(), 0D )),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect1.maxHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect1.prefHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect1.maxHeightProperty(), 0D )),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect2.prefHeightProperty(), 0D )),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect2.maxHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect2.prefHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect2.maxHeightProperty(), 0D )),
 
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect3.prefHeightProperty(), 0D )),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(rect3.maxHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect3.prefHeightProperty(), 0D )),
+                    new KeyFrame(velocity.get(), new KeyValue(rect3.maxHeightProperty(), 0D )),
 
                     new KeyFrame(Duration.ZERO, new KeyValue(getSkinnable().textFillProperty(), getSkinnable().getTextFill())),
-                    new KeyFrame(Duration.millis(velocity), new KeyValue(getSkinnable().textFillProperty(), firstColor))
+                    new KeyFrame(velocity.get(), new KeyValue(getSkinnable().textFillProperty(), firstColor))
 
             );
 
