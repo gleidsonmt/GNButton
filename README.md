@@ -35,4 +35,4 @@ swipe.setButtonType(ButtonType.SWIPE);
 
 <h5>View</h5>
 
-<p align="center"><img src="src/view.gif"/></p>
+<p align="center"><img src="src/gif.gif"/></p>
