@@ -1,0 +1,6 @@
+./gitignore
+.idea/**
+/out/**
+
+GNButton.iml
+scenicView.properties
