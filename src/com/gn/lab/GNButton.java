@@ -84,18 +84,18 @@ public class GNButton extends Labeled {
 
     private void updateButtonType(ButtonType type) {
         switch (type) {
-//            case ALTERNATE:
-//                setSkin(new AlternateSkin(this));
-//                break;
-//            case SMOOSH :
-//                setSkin(new SmooshSkin(this));
-//                break;
-//            case CENTRALIZE:
-//                setSkin(new CentralizeSkin(this));
-//                break;
-//            case DIAGONAL_SWIPE:
-//                setSkin(new SwipeDiagonalSkin(this));
-//                break;
+            case ALTERNATE:
+                setSkin(new AlternateSkin(this));
+                break;
+            case SMOOSH :
+                setSkin(new SmooshSkin(this));
+                break;
+            case CENTRALIZE:
+                setSkin(new CentralizeSkin(this));
+                break;
+            case DIAGONAL_SWIPE:
+                setSkin(new SwipeDiagonalSkin(this));
+                break;
             default:
                 setSkin(new SwipeSkin(this));
                 break;
