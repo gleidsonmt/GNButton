@@ -38,11 +38,11 @@ swipe.setTransitionDuration(Duration.ZERO);
 
 <h5>Inline css  </h5>
 
-```CSS
+```java
  -gn-button-type : swipe;
  -gn-transition-color : #33B5E5;
  -gn-transition-color : white;
- -gn-transition-duration : 1s | 1000m
+ -gn-transition-duration : 500m;
 ```
 <h5>View</h5>
 
