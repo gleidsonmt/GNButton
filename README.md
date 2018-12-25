@@ -31,6 +31,7 @@ GNButton swipe = new GNButton("Swipe");
 swipe.setButtonType(ButtonType.SWIPE);
 swipe.setTransitionColor(Color.RED);
 swipe.setTransitionText(Color.WHITE);
+swipe.setTransitionDuration(Duration.ZERO);
 ```
 
 <h1></h1>
@@ -39,8 +40,9 @@ swipe.setTransitionText(Color.WHITE);
 
 ```CSS
  -gn-button-type : swipe;
- -gn-transition-color : red;
- -gn-transition-color : red;
+ -gn-transition-color : #33B5E5;
+ -gn-transition-color : white;
+ -gn-transition-duration : 1s | 1000m
 ```
 <h5>View</h5>
 
