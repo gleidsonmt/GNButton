@@ -29,10 +29,19 @@
 ```java
 GNButton swipe = new GNButton("Swipe");
 swipe.setButtonType(ButtonType.SWIPE);
+swipe.setTransitionColor(Color.RED);
+swipe.setTransitionText(Color.WHITE);
 ```
 
 <h1></h1>
 
+<h5>Inline css  </h5>
+
+```CSS
+ -gn-button-type : swipe;
+ -gn-transition-color : red;
+ -gn-transition-color : red;
+```
 <h5>View</h5>
 
 <p align="center"><img src="src/view.gif"/></p>
