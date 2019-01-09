@@ -77,8 +77,6 @@ public class AlternateSkin extends SkinBase<Labeled>{
         rect3.setMaxHeight(0);
         rect3.setPrefHeight(0);
 
-
-
         getChildren().clear();
 
         getChildren().add(rect);

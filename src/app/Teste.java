@@ -21,9 +21,11 @@ import com.gn.lab.GNButton;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.scenicview.ScenicView;
 
 import java.util.Scanner;
@@ -32,14 +34,14 @@ import java.util.Scanner;
  * @author Gleidson Neves da Silveira | gleidisonmt@gmail.com
  * Create on  19/12/2018
  */
-public class Teste1 extends Application {
+public class Teste extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         StackPane root = new StackPane();
         root.setPadding(new Insets(100,100 , 100, 200));
 
         GNButton btn = new GNButton();
-//        btn.setButtonType(ButtonType.DIAGONAL_SWIPE);
+        btn.setButtonType(ButtonType.CORNERS);
 
         root.getChildren().add(btn);
 

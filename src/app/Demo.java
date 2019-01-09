@@ -34,18 +34,21 @@ public class Demo extends Application {
         GNButton centralize = new GNButton("Centralize");
         GNButton smoosh = new GNButton("Smoosh");
         GNButton alternate = new GNButton("Alternate");
+        GNButton corners = new GNButton("Corners");
 
         swipe.setButtonType(ButtonType.SWIPE);
         swipe_diagonal.setButtonType(ButtonType.DIAGONAL_SWIPE);
         centralize.setButtonType(ButtonType.CENTRALIZE);
         smoosh.setButtonType(ButtonType.SMOOSH);
         alternate.setButtonType(ButtonType.ALTERNATE);
+        corners.setButtonType(ButtonType.CORNERS);
 
         swipe.setPrefSize(btnWidth, btnHeigh);
         swipe_diagonal.setPrefSize(btnWidth, btnHeigh);
         centralize.setPrefSize(btnWidth, btnHeigh);
         smoosh.setPrefSize(btnWidth, btnHeigh);
         alternate.setPrefSize(btnWidth, btnHeigh);
+        corners.setPrefSize(btnWidth, btnHeigh);
 
         GridPane grid = new GridPane();
         grid.setHgap(20D);
@@ -56,12 +59,15 @@ public class Demo extends Application {
         grid.add(swipe_diagonal, 2, 0);
         grid.add(smoosh, 3,0);
         grid.add(alternate, 4,0);
+        grid.add(corners, 5,0);
 
         root.getChildren().add(grid);
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
+
+        new Button();
 
     }
 

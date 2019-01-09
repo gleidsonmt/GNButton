@@ -62,7 +62,7 @@ public class GNButton extends Labeled {
 
         setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        this.buttonType = new SimpleStyleableObjectProperty<ButtonType>(GNButton.StyleableProperties.BUTTON_TYPE, this, "buttonType", ButtonType.SWIPE);
+        this.buttonType = new SimpleStyleableObjectProperty<ButtonType>(GNButton.StyleableProperties.BUTTON_TYPE, this, "buttonType", ButtonType.CORNERS);
 
         this.transitionColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.TRANSITION_COLOR, this, "transitionColor", Color.web("33B5E5"));
 
@@ -96,7 +96,10 @@ public class GNButton extends Labeled {
             case DIAGONAL_SWIPE:
                 setSkin(new SwipeDiagonalSkin(this));
                 break;
-            default:
+            case CORNERS :
+                setSkin(new CornerSkin(this));
+                break;
+            case SWIPE :
                 setSkin(new SwipeSkin(this));
                 break;
         }

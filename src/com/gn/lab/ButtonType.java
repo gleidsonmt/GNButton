@@ -30,10 +30,12 @@ public enum ButtonType {
 
     SMOOSH,
 
-    ALTERNATE;
+    ALTERNATE,
+
+    CORNERS;
 
 //    DOUBLE_SWIPE, DIAGONAL_CLOSE,
-//    POSITION_AWARE, SMOOSH, ZOONING_IN, CORNERS,
+//    POSITION_AWARE, SMOOSH, ZOONING_IN,
 //    COLLISION, SLICE;
 
     ButtonType(){
