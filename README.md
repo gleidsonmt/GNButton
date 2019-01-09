@@ -1,5 +1,5 @@
 
-![Version](https://img.shields.io/badge/Version-0.1.9-green.svg?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0-green.svg?style=for-the-badge)
 [![License](https://img.shields.io/github/license/Gleidson28/GNCarousel.svg?style=for-the-badge)](https://github.com/Gleidson28/GNCarousel/blob/master/LICENSE) 
 
 <h1></h1>
@@ -31,16 +31,18 @@ GNButton swipe = new GNButton("Swipe");
 swipe.setButtonType(ButtonType.SWIPE);
 swipe.setTransitionColor(Color.RED);
 swipe.setTransitionText(Color.WHITE);
+swipe.setTransitionDuration(Duration.ZERO);
 ```
 
 <h1></h1>
 
 <h5>Inline css  </h5>
 
-```CSS
+```java
  -gn-button-type : swipe;
- -gn-transition-color : red;
- -gn-transition-color : red;
+ -gn-transition-color : #33B5E5;
+ -gn-transition-color : white;
+ -gn-transition-duration : 500m;
 ```
 <h5>View</h5>
 
