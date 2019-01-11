@@ -99,9 +99,6 @@ public class SwipeSkin extends SkinBase<Labeled>{
         getSkinnable().setOnMouseEntered(event -> {
             timeEntered.getKeyFrames().clear();
 
-            System.out.println(rect.getWidth());
-            System.out.println(rect.getWidth());
-
             timeEntered.getKeyFrames().addAll(
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.prefWidthProperty(), rect.getPrefWidth())),
                     new KeyFrame(Duration.ZERO, new KeyValue(rect.maxWidthProperty(), rect.getPrefWidth())),

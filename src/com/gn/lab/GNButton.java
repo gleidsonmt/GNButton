@@ -62,7 +62,7 @@ public class GNButton extends Labeled {
 
         setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        this.buttonType = new SimpleStyleableObjectProperty<ButtonType>(GNButton.StyleableProperties.BUTTON_TYPE, this, "buttonType", ButtonType.CORNERS);
+        this.buttonType = new SimpleStyleableObjectProperty<ButtonType>(GNButton.StyleableProperties.BUTTON_TYPE, this, "buttonType", ButtonType.SWIPE);
 
         this.transitionColor = new SimpleStyleableObjectProperty<Paint>(StyleableProperties.TRANSITION_COLOR, this, "transitionColor", Color.web("33B5E5"));
 
